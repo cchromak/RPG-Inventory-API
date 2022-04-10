@@ -45,4 +45,9 @@ public class PlayerService {
 
         return playerRepository.save(player);
     }
+
+    public String deletePlayer(Long id) {
+        playerRepository.deleteById(id);
+        return "Player with id (" + id + ") has been deleted.";
+    }
 }

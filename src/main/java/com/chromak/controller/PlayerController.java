@@ -44,4 +44,9 @@ public class PlayerController {
         return playerResponse;
     }
 
+    @DeleteMapping("delete/{id}")
+    public String deletePlayer(@PathVariable Long id) {
+        return playerService.deletePlayer(id);
+    }
+
 }
