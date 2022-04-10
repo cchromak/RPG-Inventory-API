@@ -1,11 +1,14 @@
 package com.chromak.controller;
 
 import com.chromak.entity.Player;
+import com.chromak.request.CreatePlayerRequest;
+import com.chromak.request.UpdatePlayerRequest;
 import com.chromak.response.PlayerResponse;
 import com.chromak.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,4 +29,19 @@ public class PlayerController {
         }
         return  playerResponseList;
     }
+
+    @PostMapping("create")
+    public PlayerResponse createPlayer(@Valid @RequestBody CreatePlayerRequest createPlayerRequest) {
+        Player player = playerService.createPlayer(createPlayerRequest);
+        PlayerResponse playerResponse = new PlayerResponse(player);
+        return playerResponse;
+    }
+
+    @PutMapping("update")
+    public PlayerResponse updatePlayer(@Valid @RequestBody UpdatePlayerRequest updatePlayerRequest) {
+        Player player = playerService.updatePlayer(updatePlayerRequest);
+        PlayerResponse playerResponse = new PlayerResponse(player);
+        return playerResponse;
+    }
+
 }

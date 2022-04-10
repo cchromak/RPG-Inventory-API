@@ -14,7 +14,9 @@ public class PlayerResponse {
 
     private Long id;
 
-    private String playerName;
+    private String firstName;
+
+    private String lastName;
 
     private String homePlanet;
 
@@ -22,7 +24,8 @@ public class PlayerResponse {
 
     public PlayerResponse(Player player) {
         this.id = player.getId();
-        this.playerName = player.getPlayerName();
+        this.firstName = player.getFirstName();
+        this.lastName = player.getLastName();
         this.homePlanet = player.getHomePlanet();
         this.quote = player.getQuote();
     }
