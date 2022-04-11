@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,6 +33,10 @@ public class Player {
 
     @Column(name = "quote")
     private String quote;
+
+    @OneToMany(mappedBy = "player")
+    Set<PlayerItem> playerItems;
+
 
     public Player(CreatePlayerRequest createPlayerRequest) {
         this.firstName = createPlayerRequest.getFirstName();
