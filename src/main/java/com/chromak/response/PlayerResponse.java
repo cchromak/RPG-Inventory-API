@@ -28,6 +28,8 @@ public class PlayerResponse {
 
     private Set<ItemResponse> itemResponseList;
 
+    private Set<StatResponse> statResponseList;
+
     public PlayerResponse(Player player) {
         this.id = player.getId();
         this.firstName = player.getFirstName();
@@ -40,6 +42,14 @@ public class PlayerResponse {
                 this.itemResponseList.add(new ItemResponse(playerItem.getItem().getItemName(), playerItem.getItemCount()));
             });
         }
+
+        if (player.getPlayerStats() != null) {
+            this.statResponseList = new HashSet<StatResponse>();
+            player.getPlayerStats().stream().forEach(playerStats -> {
+                this.statResponseList.add(new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll()));
+            });
+        }
+
     }
 
 }

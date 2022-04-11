@@ -37,6 +37,9 @@ public class Player {
     @OneToMany(mappedBy = "player")
     Set<PlayerItem> playerItems;
 
+    @OneToMany(mappedBy = "player")
+    Set<PlayerStats> playerStats;
+
 
     public Player(CreatePlayerRequest createPlayerRequest) {
         this.firstName = createPlayerRequest.getFirstName();
