@@ -1,7 +1,13 @@
 package com.chromak.service;
 
+import com.chromak.entity.Item;
 import com.chromak.entity.Player;
+import com.chromak.entity.PlayerItem;
+import com.chromak.entity.PlayerItemKey;
+import com.chromak.repository.ItemRepository;
+import com.chromak.repository.PlayerItemRepository;
 import com.chromak.repository.PlayerRepository;
+import com.chromak.request.CreateItemRequest;
 import com.chromak.request.CreatePlayerRequest;
 import com.chromak.request.UpdatePlayerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +21,43 @@ public class PlayerService {
     @Autowired
     PlayerRepository playerRepository;
 
+    @Autowired
+    ItemRepository itemRepository;
+
+    @Autowired
+    PlayerItemRepository playerItemRepository;
+
     public List<Player> getAllPlayers() {
         return playerRepository.findAll();
     }
 
     public Player createPlayer(CreatePlayerRequest createPlayerRequest) {
+        // Create and save new player
         Player player = new Player(createPlayerRequest);
-        return playerRepository.save(player);
+        player = playerRepository.save(player);
+
+        if (createPlayerRequest.getItems() != null) {
+        for (CreateItemRequest createItemRequest: createPlayerRequest.getItems()) {
+            // Create Item and save to table
+            Item item = new Item();
+            item.setItemName(createItemRequest.getItemName());
+            item = itemRepository.save(item);
+
+            // Create playerItemKey
+            PlayerItemKey playerItemKey = new PlayerItemKey();
+            playerItemKey.setPlayerId(player.getId());
+            playerItemKey.setItemsId(item.getId());
+
+            // create PlayerItem, set all fields and save
+            PlayerItem playerItem = new PlayerItem();
+            playerItem.setId(playerItemKey);
+            playerItem.setPlayer(player);
+            playerItem.setItem(item);
+            playerItem.setItemCount(createItemRequest.getItemCount());
+            playerItemRepository.save(playerItem);
+        }
+        }
+        return player;
     }
 
     public Player updatePlayer(UpdatePlayerRequest updatePlayerRequest) {

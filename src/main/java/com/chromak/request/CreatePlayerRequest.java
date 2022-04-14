@@ -1,11 +1,13 @@
 package com.chromak.request;
 
+import com.chromak.entity.Item;
 import com.chromak.entity.Player;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 
 @Getter
@@ -22,5 +24,7 @@ public class CreatePlayerRequest {
 
     @NotBlank(message = "Quote is required")
     private String quote;
+
+    private Set<CreateItemRequest> items;
 
 }

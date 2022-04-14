@@ -26,7 +26,7 @@ public class PlayerResponse {
 
     private String quote;
 
-    private Set<ItemResponse> itemResponseList;
+    private Set<ItemResponse> items;
 
     private Set<StatResponse> statResponseList;
 
@@ -37,9 +37,9 @@ public class PlayerResponse {
         this.homePlanet = player.getHomePlanet();
         this.quote = player.getQuote();
         if (player.getPlayerItems() != null) {
-            this.itemResponseList = new HashSet<ItemResponse>();
+            this.items = new HashSet<ItemResponse>();
             player.getPlayerItems().stream().forEach(playerItem -> {
-                this.itemResponseList.add(new ItemResponse(playerItem.getItem().getItemName(), playerItem.getItemCount()));
+                this.items.add(new ItemResponse(playerItem.getItem().getItemName(), playerItem.getItemCount()));
             });
         }
 
