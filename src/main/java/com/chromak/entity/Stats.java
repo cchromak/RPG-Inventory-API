@@ -1,6 +1,7 @@
 package com.chromak.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "stats")
 public class Stats {
 
@@ -22,5 +24,9 @@ public class Stats {
 
     @OneToMany(mappedBy = "stats")
     Set<PlayerStats> playerStats;
+
+    public Stats (String statsName) {
+        this.statsName = statsName;
+    }
 
 }
