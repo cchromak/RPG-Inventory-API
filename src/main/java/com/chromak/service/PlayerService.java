@@ -13,7 +13,9 @@ import com.chromak.request.UpdatePlayerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PlayerService {
@@ -35,32 +37,36 @@ public class PlayerService {
         // Create and save new player
         Player player = new Player(createPlayerRequest);
         player = playerRepository.save(player);
+        // Local set to store playerItems to set for player object at end of loop.
+        Set<PlayerItem> playerItems = new HashSet<PlayerItem>();
 
         if (createPlayerRequest.getItems() != null) {
-        for (CreateItemRequest createItemRequest: createPlayerRequest.getItems()) {
-            // Create Item if it does not exist and save to table
-            Item item = itemRepository.findItemByItemName(createItemRequest.getItemName());
-            if (item == null) {
-                item = new Item();
-                item.setItemName(createItemRequest.getItemName());
-                item = itemRepository.save(item);
+            for (CreateItemRequest createItemRequest : createPlayerRequest.getItems()) {
+                // Create Item if it does not exist and save to table
+                Item item = itemRepository.findItemByItemName(createItemRequest.getItemName());
+                if (item == null) {
+                    item = new Item();
+                    item.setItemName(createItemRequest.getItemName());
+                    item = itemRepository.save(item);
+                }
+
+                // Create playerItemKey
+                PlayerItemKey playerItemKey = new PlayerItemKey();
+                playerItemKey.setPlayerId(player.getId());
+                playerItemKey.setItemsId(item.getId());
+
+                // create PlayerItem, set all fields and save
+                PlayerItem playerItem = new PlayerItem();
+                playerItem.setId(playerItemKey);
+                playerItem.setPlayer(player);
+                playerItem.setItem(item);
+                playerItem.setItemCount(createItemRequest.getItemCount());
+                playerItemRepository.save(playerItem);
+                playerItems.add(playerItem);
             }
-
-            // Create playerItemKey
-            PlayerItemKey playerItemKey = new PlayerItemKey();
-            playerItemKey.setPlayerId(player.getId());
-            playerItemKey.setItemsId(item.getId());
-
-            // create PlayerItem, set all fields and save
-            PlayerItem playerItem = new PlayerItem();
-            playerItem.setId(playerItemKey);
-            playerItem.setPlayer(player);
-            playerItem.setItem(item);
-            playerItem.setItemCount(createItemRequest.getItemCount());
-            playerItemRepository.save(playerItem);
         }
-        }
-        return player;
+        player.setPlayerItems(playerItems);
+        return playerRepository.save(player);
     }
 
     public Player updatePlayer(UpdatePlayerRequest updatePlayerRequest) {
