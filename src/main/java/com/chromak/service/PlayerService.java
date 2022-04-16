@@ -1,14 +1,10 @@
 package com.chromak.service;
 
-import com.chromak.entity.Item;
-import com.chromak.entity.Player;
-import com.chromak.entity.PlayerItem;
-import com.chromak.entity.PlayerItemKey;
-import com.chromak.repository.ItemRepository;
-import com.chromak.repository.PlayerItemRepository;
-import com.chromak.repository.PlayerRepository;
+import com.chromak.entity.*;
+import com.chromak.repository.*;
 import com.chromak.request.CreateItemRequest;
 import com.chromak.request.CreatePlayerRequest;
+import com.chromak.request.CreateStatsRequest;
 import com.chromak.request.UpdatePlayerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +25,12 @@ public class PlayerService {
     @Autowired
     PlayerItemRepository playerItemRepository;
 
+    @Autowired
+    StatsRepository statsRepository;
+
+    @Autowired
+    PlayerStatsRepository playerStatsRepository;
+
     public List<Player> getAllPlayers() {
         return playerRepository.findAll();
     }
@@ -37,8 +39,9 @@ public class PlayerService {
         // Create and save new player
         Player player = new Player(createPlayerRequest);
         player = playerRepository.save(player);
-        // Local set to store playerItems to set for player object at end of loop.
+        // Local sets to store playerItems and playerStats to set for player object at end of loop.
         Set<PlayerItem> playerItems = new HashSet<PlayerItem>();
+        Set<PlayerStats> playerStats = new HashSet<PlayerStats>();
 
         if (createPlayerRequest.getItems() != null) {
             for (CreateItemRequest createItemRequest : createPlayerRequest.getItems()) {
@@ -64,8 +67,37 @@ public class PlayerService {
                 playerItemRepository.save(playerItem);
                 playerItems.add(playerItem);
             }
+            player.setPlayerItems(playerItems);
         }
-        player.setPlayerItems(playerItems);
+
+        player = playerRepository.save(player);
+
+        if (createPlayerRequest.getStats() != null && createPlayerRequest.getStats().size() > 0) {
+            for (CreateStatsRequest createStatsRequest: createPlayerRequest.getStats()) {
+                Stats stat = statsRepository.findStatsByStatsName(createStatsRequest.getStatName());
+                if (stat == null) {
+                    stat = new Stats();
+                    stat.setStatsName(createStatsRequest.getStatName());
+                    stat = statsRepository.save(stat);
+                }
+
+                // Set PlayerStatsKey
+                PlayerStatsKey playerStatsKey = new PlayerStatsKey();
+                playerStatsKey.setPlayerId(player.getId());
+                playerStatsKey.setStatsId(stat.getId());
+
+                //
+                PlayerStats playerStat = new PlayerStats();
+                playerStat.setId(playerStatsKey);
+                playerStat.setPlayer(player);
+                playerStat.setStats(stat);
+                playerStat.setDiceRoll(createStatsRequest.getDiceRoll());
+                playerStat.setBonusRoll(createStatsRequest.getBonusRoll());
+                playerStatsRepository.save(playerStat);
+                playerStats.add(playerStat);
+            }
+            player.setPlayerStats(playerStats);
+        }
         return playerRepository.save(player);
     }
 

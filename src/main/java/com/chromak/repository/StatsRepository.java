@@ -15,4 +15,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
     @Query("Delete Stats where statsName = :statsName")
     Integer deleteByStatName(String statsName);
 
+    @Query("From Stats where statsName = :statsName")
+    Stats findStatsByStatsName(String statsName);
+
 }

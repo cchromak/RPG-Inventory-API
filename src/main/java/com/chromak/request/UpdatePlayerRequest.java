@@ -19,4 +19,5 @@ public class UpdatePlayerRequest {
     private String homePlanet;
 
     private String quote;
+
 }

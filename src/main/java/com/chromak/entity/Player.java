@@ -37,7 +37,7 @@ public class Player {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
     Set<PlayerItem> playerItems;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
     Set<PlayerStats> playerStats;
 
 

@@ -28,7 +28,7 @@ public class PlayerResponse {
 
     private Set<ItemResponse> items;
 
-    private Set<StatResponse> statResponseList;
+    private Set<StatResponse> stats;
 
     public PlayerResponse(Player player) {
         this.id = player.getId();
@@ -44,9 +44,9 @@ public class PlayerResponse {
         }
 
         if (player.getPlayerStats() != null) {
-            this.statResponseList = new HashSet<StatResponse>();
+            this.stats = new HashSet<StatResponse>();
             player.getPlayerStats().stream().forEach(playerStats -> {
-                this.statResponseList.add(new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll()));
+                this.stats.add(new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll()));
             });
         }
 

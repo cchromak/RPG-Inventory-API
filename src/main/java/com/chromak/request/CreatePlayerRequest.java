@@ -27,4 +27,6 @@ public class CreatePlayerRequest {
 
     private Set<CreateItemRequest> items;
 
+    private Set<CreateStatsRequest> stats;
+
 }
