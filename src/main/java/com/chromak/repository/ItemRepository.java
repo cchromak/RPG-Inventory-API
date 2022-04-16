@@ -14,4 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Transactional
     @Query("Delete Item where itemName = :itemName")
     Integer deleteByItemName(String itemName);
+
+    @Query("From Item where itemName = :itemName")
+    Item findItemByItemName(String itemName);
 }

@@ -38,10 +38,13 @@ public class PlayerService {
 
         if (createPlayerRequest.getItems() != null) {
         for (CreateItemRequest createItemRequest: createPlayerRequest.getItems()) {
-            // Create Item and save to table
-            Item item = new Item();
-            item.setItemName(createItemRequest.getItemName());
-            item = itemRepository.save(item);
+            // Create Item if it does not exist and save to table
+            Item item = itemRepository.findItemByItemName(createItemRequest.getItemName());
+            if (item == null) {
+                item = new Item();
+                item.setItemName(createItemRequest.getItemName());
+                item = itemRepository.save(item);
+            }
 
             // Create playerItemKey
             PlayerItemKey playerItemKey = new PlayerItemKey();
