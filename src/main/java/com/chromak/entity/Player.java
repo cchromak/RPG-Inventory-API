@@ -34,7 +34,7 @@ public class Player {
     @Column(name = "quote")
     private String quote;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
     Set<PlayerItem> playerItems;
 
     @OneToMany(mappedBy = "player")
