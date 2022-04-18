@@ -1,6 +1,7 @@
 package com.chromak.controller;
 
 import com.chromak.request.CreateItemRequest;
+import com.chromak.request.UpdatePlayerItem;
 import com.chromak.response.ItemResponse;
 import com.chromak.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +28,10 @@ public class ItemController {
     public ItemResponse addItemToPlayer(@RequestBody CreateItemRequest createItemRequest) {
         return itemService.addItemToPlayer(createItemRequest);
     }
+
+    @PutMapping("updateItemForPlayer")
+    public ItemResponse updateItemForPlayer(@RequestBody UpdatePlayerItem updatePlayerItem) {
+        return  itemService.updateItemForPlayer(updatePlayerItem);
+    }
+
 }

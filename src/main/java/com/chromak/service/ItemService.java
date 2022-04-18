@@ -8,9 +8,12 @@ import com.chromak.repository.ItemRepository;
 import com.chromak.repository.PlayerItemRepository;
 import com.chromak.repository.PlayerRepository;
 import com.chromak.request.CreateItemRequest;
+import com.chromak.request.UpdatePlayerItem;
 import com.chromak.response.ItemResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -65,5 +68,20 @@ public class ItemService {
         itemResponse.setItemCount(createItemRequest.getItemCount());
         return itemResponse;
 
+    }
+
+    public ItemResponse updateItemForPlayer(UpdatePlayerItem updatePlayerItem) {
+        Player player = playerRepository.getById(updatePlayerItem.getPlayerId());
+        // Need to throw error here if player not found.
+
+        Item item = itemRepository.findItemByItemName(updatePlayerItem.getItemName());
+        // Need to throw error here if item not found.
+        
+        PlayerItem playerItem = playerItemRepository.getById(new PlayerItemKey(player.getId(), item.getId()));
+        playerItem.setItemCount(updatePlayerItem.getItemCount());
+        playerItemRepository.save(playerItem);
+
+        ItemResponse itemResponse = new ItemResponse(item.getItemName(), updatePlayerItem.getItemCount());
+        return itemResponse;
     }
 }
