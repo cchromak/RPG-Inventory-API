@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class CreateStatsRequest {
 
+    private long playerId;
+
     private String statName;
 
     private int diceRoll;

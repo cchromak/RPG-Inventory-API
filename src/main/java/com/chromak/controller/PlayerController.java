@@ -1,8 +1,10 @@
 package com.chromak.controller;
 
 import com.chromak.entity.Player;
+import com.chromak.request.CreateItemRequest;
 import com.chromak.request.CreatePlayerRequest;
 import com.chromak.request.UpdatePlayerRequest;
+import com.chromak.response.ItemResponse;
 import com.chromak.response.PlayerResponse;
 import com.chromak.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,13 @@ public class PlayerController {
             playerResponseList.add(new PlayerResponse(player));
         }
         return  playerResponseList;
+    }
+
+    @GetMapping("getById/{id}")
+    public PlayerResponse getById(@PathVariable Long id) {
+        Player player = playerService.getById(id);
+        PlayerResponse playerResponse = new PlayerResponse(player);
+        return playerResponse;
     }
 
     @PostMapping("create")

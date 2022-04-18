@@ -35,6 +35,11 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
+
+    public Player getById(Long id) {
+        return playerRepository.getById(id);
+    }
+
     public Player createPlayer(CreatePlayerRequest createPlayerRequest) {
         // Create and save new player
         Player player = new Player(createPlayerRequest);
@@ -127,4 +132,5 @@ public class PlayerService {
         playerRepository.deleteById(id);
         return "Player with id (" + id + ") has been deleted.";
     }
+
 }

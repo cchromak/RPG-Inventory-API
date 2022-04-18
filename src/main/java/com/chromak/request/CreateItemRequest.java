@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class CreateItemRequest {
 
+    private long playerId;
+
     private String itemName;
 
     private int itemCount;
