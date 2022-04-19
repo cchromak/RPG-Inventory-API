@@ -1,6 +1,7 @@
 package com.chromak.controller;
 
 import com.chromak.entity.Player;
+import com.chromak.exception.ApiRequestException;
 import com.chromak.request.CreateItemRequest;
 import com.chromak.request.CreatePlayerRequest;
 import com.chromak.request.UpdatePlayerRequest;
@@ -34,9 +35,13 @@ public class PlayerController {
 
     @GetMapping("getById/{id}")
     public PlayerResponse getById(@PathVariable Long id) {
-        Player player = playerService.getById(id);
-        PlayerResponse playerResponse = new PlayerResponse(player);
-        return playerResponse;
+        try {
+            Player player = playerService.getById(id);
+            PlayerResponse playerResponse = new PlayerResponse(player);
+            return playerResponse;
+        } catch (Exception e) {
+            throw new ApiRequestException("Can Not Find Player");
+        }
     }
 
     @PostMapping("create")
@@ -55,7 +60,11 @@ public class PlayerController {
 
     @DeleteMapping("delete/{id}")
     public String deletePlayer(@PathVariable Long id) {
-        return playerService.deletePlayer(id);
+        try {
+            return playerService.deletePlayer(id);
+        } catch (Exception e) {
+            throw new ApiRequestException("Player Does Not Exist Therefore It Can Not Be Deleted.");
+        }
     }
 
 }
