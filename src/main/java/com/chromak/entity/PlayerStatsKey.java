@@ -2,6 +2,7 @@ package com.chromak.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -13,8 +14,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
 public class PlayerStatsKey implements Serializable {
-
 
     @Column(name = "id_player")
     Long playerId;
@@ -22,4 +23,8 @@ public class PlayerStatsKey implements Serializable {
     @Column(name = "id_stats")
     Long statsId;
 
+    public PlayerStatsKey(Long playerId, Long statsId) {
+        this.playerId = playerId;
+        this.statsId = statsId;
+    }
 }

@@ -76,12 +76,12 @@ public class ItemService {
 
         Item item = itemRepository.findItemByItemName(updatePlayerItem.getItemName());
         // Need to throw error here if item not found.
-        
+
         PlayerItem playerItem = playerItemRepository.getById(new PlayerItemKey(player.getId(), item.getId()));
         playerItem.setItemCount(updatePlayerItem.getItemCount());
-        playerItemRepository.save(playerItem);
+        playerItem = playerItemRepository.save(playerItem);
 
-        ItemResponse itemResponse = new ItemResponse(item.getItemName(), updatePlayerItem.getItemCount());
+        ItemResponse itemResponse = new ItemResponse(playerItem.getItem().getItemName(), playerItem.getItemCount());
         return itemResponse;
     }
 }

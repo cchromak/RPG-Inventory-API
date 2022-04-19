@@ -1,6 +1,8 @@
 package com.chromak.controller;
 
 import com.chromak.entity.Stats;
+import com.chromak.request.UpdateStatsRequest;
+import com.chromak.response.StatResponse;
 import com.chromak.service.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,4 +24,10 @@ public class StatsController {
     public String deleteByStatsName(@PathVariable String statsName) {
         return statsService.deleteByStatsName(statsName) +  " stat(s) was deleted.";
     }
+
+    @PutMapping("updateStatForPlayer")
+    public StatResponse updateStatForPlayer(@RequestBody UpdateStatsRequest updateStatsRequest) {
+        return statsService.updateStatForPlayer(updateStatsRequest);
+    }
+
 }
