@@ -1,6 +1,7 @@
 package com.chromak.controller;
 
 import com.chromak.entity.Stats;
+import com.chromak.request.CreateStatsRequest;
 import com.chromak.request.UpdateStatsRequest;
 import com.chromak.response.StatResponse;
 import com.chromak.service.StatsService;
@@ -23,6 +24,11 @@ public class StatsController {
     @DeleteMapping("delete/{statsName}")
     public String deleteByStatsName(@PathVariable String statsName) {
         return statsService.deleteByStatsName(statsName) +  " stat(s) was deleted.";
+    }
+
+    @PostMapping("addStatForPlayer")
+    public StatResponse addStatForPlayer(@RequestBody CreateStatsRequest createStatsRequest) {
+        return statsService.addStatForPlayer(createStatsRequest);
     }
 
     @PutMapping("updateStatForPlayer")

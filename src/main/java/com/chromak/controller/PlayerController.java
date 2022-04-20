@@ -2,10 +2,8 @@ package com.chromak.controller;
 
 import com.chromak.entity.Player;
 import com.chromak.exception.ApiRequestException;
-import com.chromak.request.CreateItemRequest;
 import com.chromak.request.CreatePlayerRequest;
 import com.chromak.request.UpdatePlayerRequest;
-import com.chromak.response.ItemResponse;
 import com.chromak.response.PlayerResponse;
 import com.chromak.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +51,13 @@ public class PlayerController {
 
     @PutMapping("update")
     public PlayerResponse updatePlayer(@Valid @RequestBody UpdatePlayerRequest updatePlayerRequest) {
-        Player player = playerService.updatePlayer(updatePlayerRequest);
-        PlayerResponse playerResponse = new PlayerResponse(player);
-        return playerResponse;
+        try {
+            Player player = playerService.updatePlayer(updatePlayerRequest);
+            PlayerResponse playerResponse = new PlayerResponse(player);
+            return playerResponse;
+        } catch (Exception e) {
+            throw new ApiRequestException("Player Does Not Exist Therefore It Can Not Be Updated.");
+        }
     }
 
     @DeleteMapping("delete/{id}")

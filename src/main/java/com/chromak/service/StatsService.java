@@ -7,6 +7,7 @@ import com.chromak.entity.Stats;
 import com.chromak.repository.PlayerRepository;
 import com.chromak.repository.PlayerStatsRepository;
 import com.chromak.repository.StatsRepository;
+import com.chromak.request.CreateStatsRequest;
 import com.chromak.request.UpdateStatsRequest;
 import com.chromak.response.StatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,29 @@ public class StatsService {
         return statsRepository.deleteByStatName(statsName);
     }
 
+    public StatResponse addStatForPlayer(CreateStatsRequest createStatsRequest) {
+        Player player = playerRepository.getById(createStatsRequest.getPlayerId());
+
+        Stats stats = statsRepository.findStatsByStatsName(createStatsRequest.getStatName());
+        if (stats == null) {
+            stats = new Stats(createStatsRequest.getStatName());
+            stats = statsRepository.save(stats);
+        }
+
+        PlayerStatsKey playerStatsKey = new PlayerStatsKey(player.getId(), stats.getId());
+
+        PlayerStats playerStats = new PlayerStats();
+        playerStats.setId(playerStatsKey);
+        playerStats.setPlayer(player);
+        playerStats.setStats(stats);
+        playerStats.setDiceRoll(createStatsRequest.getDiceRoll());
+        playerStats.setBonusRoll(createStatsRequest.getBonusRoll());
+        playerStats = playerStatsRepository.save(playerStats);
+
+        StatResponse statResponse = new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll());
+        return statResponse;
+    }
+
     public StatResponse updateStatForPlayer(UpdateStatsRequest updateStatsRequest) {
         Player player = playerRepository.getById(updateStatsRequest.getPlayerId());
 
@@ -53,4 +77,6 @@ public class StatsService {
         StatResponse statResponse = new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll());
         return statResponse;
     }
+
+
 }
