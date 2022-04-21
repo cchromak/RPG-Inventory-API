@@ -14,6 +14,9 @@ import com.chromak.response.StatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class StatsService {
 
@@ -26,6 +29,15 @@ public class StatsService {
     @Autowired
     PlayerRepository playerRepository;
 
+
+    public List<StatResponse> getAll() {
+        List<Stats> stats = statsRepository.findAll();
+        List<StatResponse> statsList = new ArrayList<>();
+        for(Stats stat: stats) {
+            statsList.add(new StatResponse(stat.getId(), stat.getStatsName()));
+        }
+        return statsList;
+    }
 
     public Stats createStat(String statName) {
         return statsRepository.save(new Stats(statName));
@@ -86,6 +98,5 @@ public class StatsService {
         StatResponse statResponse = new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll());
         return statResponse;
     }
-
 
 }

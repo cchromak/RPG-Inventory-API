@@ -8,12 +8,19 @@ import com.chromak.service.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/stats/")
 public class StatsController {
 
     @Autowired
     StatsService statsService;
+
+    @GetMapping("getAll")
+    public List<StatResponse> getAll(){
+        return statsService.getAll();
+    }
 
     @PostMapping("create/{statName}")
     public String createStat(@PathVariable String statName) {

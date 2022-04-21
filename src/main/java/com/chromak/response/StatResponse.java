@@ -9,6 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StatResponse {
 
+    private Long id;
+
     private String statName;
 
     private int diceRoll;
@@ -19,5 +21,10 @@ public class StatResponse {
         this.statName = statName;
         this.diceRoll = diceRoll;
         this.bonusRoll = bonusRoll;
+    }
+
+    public StatResponse(Long id, String statName) {
+        this.id = id;
+        this.statName = statName;
     }
 }

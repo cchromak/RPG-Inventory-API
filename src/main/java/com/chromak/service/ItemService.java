@@ -13,7 +13,8 @@ import com.chromak.response.ItemResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -26,6 +27,16 @@ public class ItemService {
 
     @Autowired
     PlayerItemRepository playerItemRepository;
+
+
+    public List<ItemResponse> getAll() {
+        List<Item> items =  itemRepository.findAll();
+        List<ItemResponse> itemsList = new ArrayList<>();
+        for (Item item: items) {
+            itemsList.add(new ItemResponse(item.getId(), item.getItemName()));
+        }
+        return itemsList;
+    }
 
     public Item createItem(String itemName) {
         return itemRepository.save(new Item(itemName));
@@ -84,4 +95,5 @@ public class ItemService {
         ItemResponse itemResponse = new ItemResponse(playerItem.getItem().getItemName(), playerItem.getItemCount());
         return itemResponse;
     }
+
 }

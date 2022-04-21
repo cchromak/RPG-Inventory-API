@@ -7,12 +7,19 @@ import com.chromak.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/item/")
 public class ItemController {
 
     @Autowired
     ItemService itemService;
+
+    @GetMapping("getAll")
+    public List<ItemResponse> getAll() {
+        return  itemService.getAll();
+    }
 
     @PostMapping("create/{itemName}")
     public String createItem(@PathVariable String itemName) {
