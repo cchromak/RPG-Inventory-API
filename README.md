@@ -34,56 +34,56 @@ Once the application runs you should see something like this
 
 ## About the Service
 
-####Full documentation can be found at:
+#### Full documentation can be found at:
 ```
 http://localhost:8080/swagger-ui.html
 ```
 
-###GET requests
-####No parameters
+### GET requests
+#### No parameters
 ```
 http://localhost:8080/player/getAll
 http://localhost:8080/item/getAll
 http://localhost:8080/stats/getAll
 ```
 
-####Integer Parameter
+#### Integer Parameter
 ```
 http://localhost:8080/player/getById/{id}
 ```
 
-###POST Requests
+### POST Requests
 
-####Accepts JSON
+#### Accepts JSON
 ```
 http://localhost:8080/player/create
 http://localhost:8080/item/addItemToPlayer
 http://localhost:8080/stats/addStatForPlayer
 ```
 
-####String Parameter
+#### String Parameter
 ```
 http://localhost:8080/item/create/{itemName}
 http://localhost:8080/stats/create/{statName}
 ```
 
-###PUT Requests
+### PUT Requests
 
-####Accepts JSON
+#### Accepts JSON
 ```
 http://localhost:8080/player/update
 http://localhost:8080/stats/updateStatForPlayer
 http://localhost:8080/item/updateItemForPlayer
 ```
 
-###DELETE Requests
+### DELETE Requests
 
-####Integer Parameter
+#### Integer Parameter
 ```
 http://localhost:8080/player/delete/{id}
 ```
 
-####String Parameter
+#### String Parameter
 ```
 http://localhost:8080/item/delete/{itemName}
 http://localhost:8080/stats/delete/{statName}
