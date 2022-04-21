@@ -4,6 +4,7 @@ import com.chromak.entity.Player;
 import com.chromak.entity.PlayerStats;
 import com.chromak.entity.PlayerStatsKey;
 import com.chromak.entity.Stats;
+import com.chromak.exception.ApiRequestException;
 import com.chromak.repository.PlayerRepository;
 import com.chromak.repository.PlayerStatsRepository;
 import com.chromak.repository.StatsRepository;
@@ -35,26 +36,34 @@ public class StatsService {
     }
 
     public StatResponse addStatForPlayer(CreateStatsRequest createStatsRequest) {
-        Player player = playerRepository.getById(createStatsRequest.getPlayerId());
+        try {
+            Player player = new Player();
+            Stats stats = statsRepository.findStatsByStatsName(createStatsRequest.getStatName());
 
-        Stats stats = statsRepository.findStatsByStatsName(createStatsRequest.getStatName());
-        if (stats == null) {
-            stats = new Stats(createStatsRequest.getStatName());
-            stats = statsRepository.save(stats);
+            if (playerRepository.existsById(createStatsRequest.getPlayerId()) && stats == null) {
+                stats = new Stats(createStatsRequest.getStatName());
+                stats = statsRepository.save(stats);
+                player = playerRepository.getById(createStatsRequest.getPlayerId());
+            }
+
+            PlayerStatsKey playerStatsKey = new PlayerStatsKey(player.getId(), stats.getId());
+            PlayerStats playerStats = new PlayerStats();
+
+            if (playerStatsKey != null) {
+                playerStats.setId(playerStatsKey);
+                playerStats.setPlayer(player);
+                playerStats.setStats(stats);
+                playerStats.setDiceRoll(createStatsRequest.getDiceRoll());
+                playerStats.setBonusRoll(createStatsRequest.getBonusRoll());
+                playerStats = playerStatsRepository.save(playerStats);
+            }
+
+            StatResponse statResponse = new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll());
+            return statResponse;
+        } catch (Exception e) {
+            throw new ApiRequestException("Player Not found Therefore Can Not Add Stat.");
         }
 
-        PlayerStatsKey playerStatsKey = new PlayerStatsKey(player.getId(), stats.getId());
-
-        PlayerStats playerStats = new PlayerStats();
-        playerStats.setId(playerStatsKey);
-        playerStats.setPlayer(player);
-        playerStats.setStats(stats);
-        playerStats.setDiceRoll(createStatsRequest.getDiceRoll());
-        playerStats.setBonusRoll(createStatsRequest.getBonusRoll());
-        playerStats = playerStatsRepository.save(playerStats);
-
-        StatResponse statResponse = new StatResponse(playerStats.getStats().getStatsName(), playerStats.getDiceRoll(), playerStats.getBonusRoll());
-        return statResponse;
     }
 
     public StatResponse updateStatForPlayer(UpdateStatsRequest updateStatsRequest) {
