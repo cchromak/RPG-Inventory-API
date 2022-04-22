@@ -40,6 +40,9 @@ public class Player {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
     Set<PlayerStats> playerStats;
 
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    Set<Journal> playerJournal;
+
 
     public Player(CreatePlayerRequest createPlayerRequest) {
         this.firstName = createPlayerRequest.getFirstName();

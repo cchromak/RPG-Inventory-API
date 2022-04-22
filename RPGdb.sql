@@ -40,6 +40,34 @@ INSERT INTO `items` VALUES (34,'Space Dirt'),(35,'Space Ketchup'),(36,'Space Jui
 UNLOCK TABLES;
 
 --
+-- Table structure for table `journal`
+--
+
+DROP TABLE IF EXISTS `journal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `journal` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_player` int NOT NULL,
+  `entry` text,
+  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `id_player_idx` (`id_player`),
+  CONSTRAINT `id_player` FOREIGN KEY (`id_player`) REFERENCES `players` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `journal`
+--
+
+LOCK TABLES `journal` WRITE;
+/*!40000 ALTER TABLE `journal` DISABLE KEYS */;
+INSERT INTO `journal` VALUES (7,90,'Pray  ','2022-04-22 16:00:54'),(8,90,'Pray or mojo 1000','2022-04-22 16:16:32'),(9,90,'Pray or mojo 1000','2022-04-22 16:18:01'),(10,90,'Pray or mojo 1000','2022-04-22 16:18:06'),(11,90,'Pray or mojo 1000','2022-04-22 16:18:11');
+/*!40000 ALTER TABLE `journal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `player_items`
 --
 
@@ -115,7 +143,7 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
-INSERT INTO `players` VALUES (90,'Belmont\'','Kin','\'Earth-4\'','Where we go, is where we go.');
+INSERT INTO `players` VALUES (90,'Belmont','Kin','\'Earth-4\'','Where we go, is where we go.');
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,4 +180,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-22  9:50:39
+-- Dump completed on 2022-04-22 12:20:11
