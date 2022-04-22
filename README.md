@@ -1,7 +1,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
-* [Install The Database](#intsall-the-database)
+* [Install the Database](#install-the-database)
 * [How to Run](#how-to-run)
 * [About the Service](#about-the-service)
 
@@ -38,7 +38,7 @@ Once the application runs you should see something like this
 
 ## About the Service
 
-#### Full documentation can be found at:
+#### Full documentation can be found at (when project is running):
 ```
 http://localhost:8080/swagger-ui.html
 ```
