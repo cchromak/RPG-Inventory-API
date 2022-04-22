@@ -54,6 +54,7 @@ http://localhost:8080/stats/getAll
 #### Integer Parameter
 ```
 http://localhost:8080/player/getById/{id}
+http://localhost:8080/journal/getAll/{id}
 ```
 
 ### POST Requests
@@ -63,6 +64,7 @@ http://localhost:8080/player/getById/{id}
 http://localhost:8080/player/create
 http://localhost:8080/item/addItemToPlayer
 http://localhost:8080/stats/addStatForPlayer
+http://localhost:8080/journal/createEntry
 ```
 
 #### String Parameter
@@ -78,6 +80,7 @@ http://localhost:8080/stats/create/{statName}
 http://localhost:8080/player/update
 http://localhost:8080/stats/updateStatForPlayer
 http://localhost:8080/item/updateItemForPlayer
+http://localhost:8080/journal/updateEntry
 ```
 
 ### DELETE Requests
@@ -85,6 +88,7 @@ http://localhost:8080/item/updateItemForPlayer
 #### Integer Parameter
 ```
 http://localhost:8080/player/delete/{id}
+http://localhost:8080/journal/delete/{id}
 ```
 
 #### String Parameter
