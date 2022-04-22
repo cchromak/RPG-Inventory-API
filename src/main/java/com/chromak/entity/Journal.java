@@ -28,7 +28,7 @@ public class Journal {
     @Column(name = "entry")
     String entry;
 
-    @Column(name = "time_stamp", nullable = false, updatable = false)
+    @Column(name = "time_stamp", nullable = false)
     @CreationTimestamp
     private Date timestamp;
 
