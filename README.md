@@ -1,6 +1,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [Install The Database](#intsall-the-database)
 * [How to Run](#how-to-run)
 * [About the Service](#about-the-service)
 
@@ -13,6 +14,9 @@ Project is created with:
 * Spring Boot
 * Maven
 * MySQL
+
+## Install The Database
+Copy and paste the content of **RPGdb.sql** on the MySQL command line or import this data from the MySQL Workbench.
 
 ## How to Run
 
